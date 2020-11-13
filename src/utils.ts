@@ -1,3 +1,4 @@
+import math from "mathjs";
 import { complex } from "mathjs";
 
 import config from "./config";
@@ -12,4 +13,20 @@ export function pixelToPoint(x: number, y: number) {
 
   // Create a complex number based on our new XY values
   return complex(zx, zy);
+}
+
+export function pointToColor(point: math.Complex) {
+  var red = point.re * 255;
+  var green = point.im * 255;
+  return `rgb(${red}, ${green}, 0)`;
+}
+
+export function drawPixel(
+  ctx: CanvasRenderingContext2D,
+  x: number,
+  y: number,
+  color: string
+) {
+  ctx.fillStyle = color;
+  ctx.fillRect(x, y, 1, 1);
 }

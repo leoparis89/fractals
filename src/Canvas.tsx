@@ -1,10 +1,11 @@
-import React, { useRef, useState } from "react";
-import { pixelToPoint } from "./utils";
+import React, { useRef, useState, useEffect } from "react";
+import { pixelToPoint, pointToColor, drawPixel } from "./utils";
+import config from "./config";
+
+const { height, width } = config.canvas;
 
 const canvasStyle = {
-  border: "1px solid blue",
-  width: 200,
-  height: 200
+  border: "1px solid blue"
 };
 
 type T = (event: React.PointerEvent<HTMLCanvasElement>) => void;
@@ -12,6 +13,15 @@ type T = (event: React.PointerEvent<HTMLCanvasElement>) => void;
 export default function Canvas() {
   const canvasEl = useRef<HTMLCanvasElement>(null);
   const [constant, setConstant] = useState<any>();
+
+  useEffect(() => {
+    if (canvasEl.current) {
+      // draw(ctx);
+      var ctx = canvasEl.current!.getContext("2d")!;
+      // drawPixel(ctx, 100, 100, `rgb(${49}, ${80}, 0)`);
+    }
+  }, []);
+
   const handleMove: T = event => {
     const rect = (event.target as any).getBoundingClientRect();
     const position = {
@@ -22,6 +32,13 @@ export default function Canvas() {
 
     setConstant([Math.round(re * 100) / 100, Math.round(im * 100) / 100]);
 
+    if (constant) {
+      var color = pointToColor(constant);
+      var ctx = canvasEl.current!.getContext("2d")!;
+      drawPixel(ctx, position.x, position.y, color);
+    }
+
+    // drawPixel(ctx, event.clientX, event.clientY, color);
     // Get the mouse's XY coordinates on canvas
     //   const mouseX = event.clientX-canvas.offsetLeft
     //   mouseY = event.clientY-canvas.offsetTop
@@ -39,8 +56,26 @@ export default function Canvas() {
         ref={canvasEl}
         onPointerMove={handleMove}
         style={canvasStyle}
+        width={config.canvas.width}
+        height={config.canvas.height}
       ></canvas>
       {constant && <h1>{`${constant[0]} + ${constant[1]}i`}</h1>}
     </div>
   );
+}
+
+function draw(ctx: CanvasRenderingContext2D) {
+  // Loop over every column of pixels
+  for (var y = 0; y < height; y++) {
+    // Loop over every row of pixels
+    for (var x = 0; x < width; x++) {
+      // Turn this pixel into a point in the complex plane
+      var point = pixelToPoint(x, y);
+
+      // Turn that point into a color
+      var color = pointToColor(point);
+
+      drawPixel(ctx, x, y, color);
+    }
+  }
 }
