@@ -18,6 +18,7 @@ export default function Canvas() {
     if (canvasEl.current) {
       // draw(ctx);
       var ctx = canvasEl.current!.getContext("2d")!;
+      draw(ctx);
       // drawPixel(ctx, 100, 100, `rgb(${49}, ${80}, 0)`);
     }
   }, []);
@@ -79,3 +80,5 @@ function draw(ctx: CanvasRenderingContext2D) {
     }
   }
 }
+
+const round = (n: number) => Math.round(n / 100) * 100;
