@@ -21,7 +21,8 @@ export function pointToColor(point: math.Complex, constant?: math.Complex) {
   }
   var red = newpoint.re * 255;
   var green = newpoint.im * 255;
-  return `rgb(${red}, ${green}, 0)`;
+  var blue = (math.abs(point) as any) * 255;
+  return `rgb(${red}, ${green}, ${blue})`;
 }
 
 export function drawPixel(
