@@ -1,5 +1,4 @@
-import math from "mathjs";
-import { complex } from "mathjs";
+import * as math from "mathjs";
 
 import config from "./config";
 const { width, height } = config.canvas;
@@ -12,12 +11,16 @@ export function pixelToPoint(x: number, y: number) {
   var zy = 1 - (y / height) * 2;
 
   // Create a complex number based on our new XY values
-  return complex(zx, zy);
+  return math.complex(zx, zy);
 }
 
-export function pointToColor(point: math.Complex) {
-  var red = point.re * 255;
-  var green = point.im * 255;
+export function pointToColor(point: math.Complex, constant?: math.Complex) {
+  let newpoint = point;
+  if (constant) {
+    newpoint = math.divide(point, constant) as math.Complex;
+  }
+  var red = newpoint.re * 255;
+  var green = newpoint.im * 255;
   return `rgb(${red}, ${green}, 0)`;
 }
 
