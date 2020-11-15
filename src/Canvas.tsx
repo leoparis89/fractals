@@ -14,14 +14,7 @@ export default function Canvas() {
   const canvasEl = useRef<HTMLCanvasElement>(null);
   const [constant, setConstant] = useState<any>();
 
-  useEffect(() => {
-    if (canvasEl.current) {
-      // draw(ctx);
-      var ctx = canvasEl.current!.getContext("2d")!;
-      draw(ctx);
-      // drawPixel(ctx, 100, 100, `rgb(${49}, ${80}, 0)`);
-    }
-  }, []);
+  useEffect(() => {}, []);
 
   const handleMove: T = event => {
     const rect = (event.target as any).getBoundingClientRect();
@@ -35,23 +28,9 @@ export default function Canvas() {
     setConstant(point);
 
     if (constant) {
-      // var color = pointToColor(constant);
       var ctx = canvasEl.current!.getContext("2d")!;
       draw(ctx, constant);
-      // drawPixel(ctx, position.x, position.y, color);
     }
-
-    // drawPixel(ctx, event.clientX, event.clientY, color);
-    // Get the mouse's XY coordinates on canvas
-    //   const mouseX = event.clientX-canvas.offsetLeft
-    //   mouseY = event.clientY-canvas.offsetTop
-
-    //   // Turn mouse coordinates into a point on the complex plane
-    //   constant = pixelToPoint(mouseX, mouseY)
-
-    //   // Round that point off to the nearest 0.01
-    //   constant.re = math.round(constant.re*100)/100
-    //   constant.im = math.round(constant.im*100)/100
   };
   const rounded = constant && [
     Math.round(constant.re * 100) / 100,
