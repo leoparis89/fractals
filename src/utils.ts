@@ -14,24 +14,17 @@ export function pixelToPoint(x: number, y: number) {
   return math.complex(zx, zy);
 }
 
-export function pointToColor(point: math.Complex, constant?: math.Complex) {
+export function pointToColor(point: math.Complex, constant: math.Complex) {
   let newpoint = point;
-  if (constant) {
-    newpoint = math.divide(point, constant) as math.Complex;
-    var iterations = julia(point, constant);
-    const percentage = iterations / maxIterations;
+  newpoint = math.divide(point, constant) as math.Complex;
+  var iterations = julia(point, constant);
+  const percentage = iterations / maxIterations;
 
-    var red = percentage * 255;
-    var green = percentage * 255;
-    var blue = percentage * 255;
+  var red = percentage * 255;
+  var green = percentage * 255;
+  var blue = percentage * 255;
 
-    return `rgb(${red}, ${green}, ${blue})`;
-  }
-  return "";
-  // How many iterations on this point before it escapes?
-  // var red = newpoint.re * 255;
-  // var green = newpoint.im * 255;
-  // var blue = (math.abs(point) as any) * 255;
+  return `rgb(${red}, ${green}, ${blue})`;
 }
 
 export function drawPixel(

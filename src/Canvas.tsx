@@ -29,7 +29,7 @@ export default function Canvas() {
 
     if (constant) {
       var ctx = canvasEl.current!.getContext("2d")!;
-      // draw(ctx, constant);
+      draw(ctx, constant);
     }
   };
   const rounded = constant && [
