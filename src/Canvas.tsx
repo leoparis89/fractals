@@ -63,9 +63,9 @@ export default function Canvas() {
         ref={canvasEl}
         onPointerMove={handleMove}
         style={canvasStyle}
-        width={config.canvas.width}
-        height={config.canvas.height}
-      ></canvas>
+        width={width}
+        height={height}
+      />
       {constant && <h1>{`${rounded[0]} + ${rounded[1]}i`}</h1>}
     </div>
   );
@@ -86,5 +86,3 @@ function draw(ctx: CanvasRenderingContext2D, constant?: any) {
     }
   }
 }
-
-const round = (n: number) => Math.round(n / 100) * 100;
