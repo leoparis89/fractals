@@ -57,7 +57,5 @@ export function julia(z: math.Complex, c: math.Complex, i = 0): number {
   }
   // If so, return number of iterations
   // If not, iterate again!
-  else {
-    return julia(result, c, i + 1);
-  }
+  return julia(result, c, i + 1);
 }
