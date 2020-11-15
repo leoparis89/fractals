@@ -51,10 +51,11 @@ export default function Canvas() {
 }
 
 function draw(ctx: CanvasRenderingContext2D, constant?: any) {
+  const { clientWidth, clientHeight } = ctx.canvas;
   // Loop over every column of pixels
-  for (var y = 0; y < height; y++) {
+  for (var y = 0; y < clientHeight; y++) {
     // Loop over every row of pixels
-    for (var x = 0; x < width; x++) {
+    for (var x = 0; x < clientWidth; x++) {
       // Turn this pixel into a point in the complex plane
       var point = pixelToPoint(x, y);
 
