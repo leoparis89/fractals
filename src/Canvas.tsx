@@ -12,6 +12,7 @@ type T = (event: React.PointerEvent<HTMLCanvasElement>) => void;
 
 export default function Canvas() {
   const canvasEl = useRef<HTMLCanvasElement>(null);
+  const displayEl = useRef<HTMLCanvasElement>(null);
   const [constant, setConstant] = useState<any>();
 
   useEffect(() => {}, []);
@@ -24,12 +25,11 @@ export default function Canvas() {
     };
     const point = pixelToPoint(position.x, position.y);
 
-    // setConstant([Math.round(re * 100) / 100, Math.round(im * 100) / 100]);
     setConstant(point);
 
     if (constant) {
-      var ctx = canvasEl.current!.getContext("2d")!;
-      draw(ctx, constant);
+      // var ctx = canvasEl.current!.getContext("2d")!;
+      // draw(ctx, constant);
     }
   };
   const rounded = constant && [
@@ -46,6 +46,14 @@ export default function Canvas() {
         height={height}
       />
       {constant && <h1>{`${rounded[0]} + ${rounded[1]}i`}</h1>}
+      <div>
+        <canvas
+          ref={displayEl}
+          style={canvasStyle}
+          width={config.display.width}
+          height={config.display.height}
+        />
+      </div>
     </div>
   );
 }
