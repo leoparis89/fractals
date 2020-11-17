@@ -28,8 +28,8 @@ export default function Canvas() {
     setConstant(point);
 
     if (constant) {
-      // var ctx = canvasEl.current!.getContext("2d")!;
-      // draw(ctx, constant);
+      var ctx = displayEl.current!.getContext("2d")!;
+      draw(ctx, constant);
     }
   };
   const rounded = constant && [
@@ -61,14 +61,14 @@ export default function Canvas() {
 function draw(ctx: CanvasRenderingContext2D, constant?: any) {
   const { clientWidth, clientHeight } = ctx.canvas;
   // Loop over every column of pixels
-  for (var y = 0; y < clientHeight; y++) {
+  for (let y = 0; y < clientHeight; y++) {
     // Loop over every row of pixels
-    for (var x = 0; x < clientWidth; x++) {
+    for (let x = 0; x < clientWidth; x++) {
       // Turn this pixel into a point in the complex plane
-      var point = pixelToPoint(x, y);
+      let point = pixelToPoint(x, y);
 
       // Turn that point into a color
-      var color = pointToColor(point, constant);
+      let color = pointToColor(point, constant);
 
       drawPixel(ctx, x, y, color);
     }

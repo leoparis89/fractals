@@ -1,7 +1,7 @@
 import * as math from "mathjs";
 
 import config from "./config";
-const { width, height } = config.canvas;
+const { width, height } = config.display;
 // the rest of your script...
 
 // Turn XY pixel coordinates into a point on the complex plane
