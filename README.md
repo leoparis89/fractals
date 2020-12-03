@@ -1,6 +1,7 @@
-# Fractals demo :telescope:
+# Fractals demo :telescope: :snowflake: :cyclone:
 
 This is a Julia set visualizer.
-It's build with create react app.
+
+It's built with create react app.
 
 [Demo](https://main.d1j4ez318mfhs6.amplifyapp.com).
