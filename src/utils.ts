@@ -1,7 +1,7 @@
 import * as math from "mathjs";
 
 import config from "./config";
-const { width, height } = config.canvas;
+const { width, height } = config.display;
 // the rest of your script...
 
 // Turn XY pixel coordinates into a point on the complex plane
@@ -10,11 +10,14 @@ export function pixelToPoint(x: number, y: number) {
   var zx = (x / width) * 2 - 1;
   var zy = 1 - (y / height) * 2;
 
-  // Create a complex number based on our new XY values
-  return math.complex(zx, zy);
+  return { x: zx, y: zy };
 }
 
-export function pointToColor(point: math.Complex, constant: math.Complex) {
+export type Point = { x: number; y: number };
+
+export function pointToColor({ x, y }: Point, c: Point) {
+  const constant = math.complex(c.x, c.y);
+  let point = math.complex(x, y);
   let newpoint = point;
   newpoint = math.divide(point, constant) as math.Complex;
   var iterations = julia(point, constant);
