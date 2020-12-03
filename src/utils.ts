@@ -18,9 +18,9 @@ export type Point = { x: number; y: number };
 export function pointToColor({ x, y }: Point, c: Point) {
   const constant = math.complex(c.x, c.y);
   let point = math.complex(x, y);
-  let newpoint = point;
-  newpoint = math.divide(point, constant) as math.Complex;
+
   var iterations = julia(point, constant);
+
   const percentage = iterations / maxIterations;
 
   var red = percentage * 255;
