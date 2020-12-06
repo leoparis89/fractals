@@ -1,6 +1,7 @@
 import React, { useRef, useState, useEffect } from "react";
 import { pixelToPoint, pointToColor, drawPixel, Point } from "./utils";
 import config from "./config";
+import { TextField, Button } from "@material-ui/core";
 
 const { height, width } = config.canvas;
 
@@ -39,16 +40,20 @@ export default function Canvas() {
     }
   };
 
+  const handleChange = (p: any) => {
+    console.log(p);
+  };
   return (
     <div>
-      <canvas
+      <FractalForm constant={constant} onChange={handleChange} />
+      {/* <canvas
         ref={complexMapEl}
         onPointerMove={handleMove}
         style={canvasStyle}
         width={width}
         height={height}
-      />
-      {constant && <h1>{`${round(constant.x)} + ${round(constant.y)}i`}</h1>}
+      /> */}
+      <h1>{`${round(constant.x)} + ${round(constant.y)}i`}</h1>
       <div>
         <canvas
           ref={fractalDisplayEl}
@@ -60,6 +65,51 @@ export default function Canvas() {
     </div>
   );
 }
+
+const FractalForm: React.FC<{ constant: Point; onChange: any }> = ({
+  constant,
+  onChange
+}) => {
+  return (
+    <form>
+      <TextField
+        type="number"
+        id="outlined-basic"
+        label="Real"
+        variant="outlined"
+        value={constant.x}
+        onChange={e => {
+          onChange({ x: Number(e.target.value), y: constant.y });
+        }}
+        InputProps={{
+          inputProps: {
+            max: 1,
+            min: 0,
+            step: 0.001
+          }
+        }}
+      />
+      <TextField
+        type="number"
+        id="outlined-basic"
+        label="Imaginary"
+        variant="outlined"
+        value={constant.y}
+        onChange={e => {
+          onChange({ y: Number(e.target.value), x: constant.x });
+        }}
+        InputProps={{
+          inputProps: {
+            max: 1,
+            min: 0,
+            step: 0.001
+          }
+        }}
+      />
+      <Button>Generate</Button>
+    </form>
+  );
+};
 
 function draw(ctx: CanvasRenderingContext2D, constant: Point) {
   const { clientWidth, clientHeight } = ctx.canvas;
