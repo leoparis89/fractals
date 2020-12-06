@@ -13,12 +13,18 @@ type T = (event: React.PointerEvent<HTMLCanvasElement>) => void;
 export default function Canvas() {
   const complexMapEl = useRef<HTMLCanvasElement>(null);
   const fractalDisplayEl = useRef<HTMLCanvasElement>(null);
-  const [constant, setConstant] = useState<Point>();
+  const [constant, setConstant] = useState<Point>({
+    x: 0.285,
+    y: 0.013
+  });
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    var ctx = fractalDisplayEl.current!.getContext("2d")!;
+    draw(ctx, constant);
+  }, []);
 
   const handleMove: T = event => {
-    const rect = (event.target as any).getBoundingClientRect();
+    const rect = (event.target as HTMLCanvasElement).getBoundingClientRect();
     const position = {
       x: event.clientX - rect.left,
       y: event.clientY - rect.top
@@ -62,10 +68,8 @@ function draw(ctx: CanvasRenderingContext2D, constant: Point) {
     // Loop over every row of pixels
     for (let x = 0; x < clientWidth; x++) {
       // Turn this pixel into a point in the complex plane
-      let point = pixelToPoint(x, y);
-
-      // Turn that point into a color
-      let color = pointToColor(point, constant);
+      const point = pixelToPoint(x, y);
+      const color = pointToColor(point, constant);
 
       drawPixel(ctx, x, y, color);
     }
