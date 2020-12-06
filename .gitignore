@@ -20,4 +20,5 @@ Thumbs.db
 # General
 log/
 *.log
+build
 
