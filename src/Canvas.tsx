@@ -1,7 +1,7 @@
 import React, { useRef, useState, useEffect } from "react";
 import { pixelToPoint, pointToColor, drawPixel, Point } from "./utils";
 import config from "./config";
-import { TextField, Button, MenuItem } from "@material-ui/core";
+import { TextField, Button, MenuItem, Container } from "@material-ui/core";
 
 const { height, width } = config.canvas;
 
@@ -52,7 +52,7 @@ export default function Canvas() {
     refresh();
   };
   return (
-    <div>
+    <Container>
       <FractalForm
         constant={constant}
         onChange={handleChange}
@@ -74,7 +74,7 @@ export default function Canvas() {
           height={config.display.height}
         />
       </div>
-    </div>
+    </Container>
   );
 }
 
@@ -84,7 +84,7 @@ const FractalForm: React.FC<{
   onSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
 }> = ({ constant, onChange, onSubmit }) => {
   return (
-    <form onSubmit={onSubmit}>
+    <form onSubmit={onSubmit} style={{ display: "flex", alignItems: "center" }}>
       <TextField
         id="standard-select-currency"
         select
@@ -93,6 +93,7 @@ const FractalForm: React.FC<{
         // value={currency}
         // onChange={handleChange}
         helperText="Select a preset"
+        margin="normal"
       >
         {currencies.map(option => (
           <MenuItem key={option.value} value={option.value}>
@@ -116,6 +117,8 @@ const FractalForm: React.FC<{
             step: 0.001
           }
         }}
+        helperText="Enter real number"
+        margin="normal"
       />
       <TextField
         type="number"
@@ -133,6 +136,8 @@ const FractalForm: React.FC<{
             step: 0.001
           }
         }}
+        helperText="Enter imaginary number"
+        margin="normal"
       />
       <Button type="submit">Generate</Button>
     </form>
