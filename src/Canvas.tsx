@@ -1,12 +1,18 @@
 import React, { useRef, useState, useEffect } from "react";
 import { pixelToPoint, pointToColor, drawPixel, Point } from "./utils";
 import config from "./config";
-import { TextField, Button, MenuItem, Container } from "@material-ui/core";
+import {
+  TextField,
+  Button,
+  MenuItem,
+  Container,
+  Paper
+} from "@material-ui/core";
 
 const { height, width } = config.canvas;
 
 const canvasStyle = {
-  border: "1px solid blue"
+  // border: "1px solid blue"
 };
 
 type T = (event: React.PointerEvent<HTMLCanvasElement>) => void;
@@ -70,14 +76,14 @@ export default function Canvas() {
         height={height}
       /> */}
       <h1>{`${round(constant.x)} + ${round(constant.y)}i`}</h1>
-      <div>
+      <Paper>
         <canvas
           ref={fractalDisplayEl}
           style={canvasStyle}
           width={config.display.width}
           height={config.display.height}
         />
-      </div>
+      </Paper>
     </Container>
   );
 }
