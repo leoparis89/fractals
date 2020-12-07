@@ -20,8 +20,7 @@ export default function Canvas() {
   });
 
   useEffect(() => {
-    var ctx = fractalDisplayEl.current!.getContext("2d")!;
-    draw(ctx, constant);
+    refresh();
   }, []);
 
   const handleMove: T = event => {
@@ -40,12 +39,25 @@ export default function Canvas() {
     }
   };
 
-  const handleChange = (p: any) => {
-    console.log(p);
+  const refresh = () => {
+    var ctx = fractalDisplayEl.current!.getContext("2d")!;
+    draw(ctx, constant);
+  };
+  const handleChange = (point: Point) => {
+    setConstant(point);
+  };
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    refresh();
   };
   return (
     <div>
-      <FractalForm constant={constant} onChange={handleChange} />
+      <FractalForm
+        constant={constant}
+        onChange={handleChange}
+        onSubmit={handleSubmit}
+      />
       {/* <canvas
         ref={complexMapEl}
         onPointerMove={handleMove}
@@ -66,12 +78,13 @@ export default function Canvas() {
   );
 }
 
-const FractalForm: React.FC<{ constant: Point; onChange: any }> = ({
-  constant,
-  onChange
-}) => {
+const FractalForm: React.FC<{
+  constant: Point;
+  onChange: any;
+  onSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
+}> = ({ constant, onChange, onSubmit }) => {
   return (
-    <form>
+    <form onSubmit={onSubmit}>
       <TextField
         type="number"
         id="outlined-basic"
@@ -106,7 +119,7 @@ const FractalForm: React.FC<{ constant: Point; onChange: any }> = ({
           }
         }}
       />
-      <Button>Generate</Button>
+      <Button type="submit">Generate</Button>
     </form>
   );
 };
