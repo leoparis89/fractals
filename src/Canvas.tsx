@@ -1,7 +1,7 @@
 import React, { useRef, useState, useEffect } from "react";
 import { pixelToPoint, pointToColor, drawPixel, Point } from "./utils";
 import config from "./config";
-import { TextField, Button } from "@material-ui/core";
+import { TextField, Button, MenuItem } from "@material-ui/core";
 
 const { height, width } = config.canvas;
 
@@ -86,6 +86,21 @@ const FractalForm: React.FC<{
   return (
     <form onSubmit={onSubmit}>
       <TextField
+        id="standard-select-currency"
+        select
+        label="Select"
+        variant="outlined"
+        // value={currency}
+        // onChange={handleChange}
+        helperText="Select a preset"
+      >
+        {currencies.map(option => (
+          <MenuItem key={option.value} value={option.value}>
+            {option.label}
+          </MenuItem>
+        ))}
+      </TextField>
+      <TextField
         type="number"
         id="outlined-basic"
         label="Real"
@@ -140,3 +155,22 @@ function draw(ctx: CanvasRenderingContext2D, constant: Point) {
 }
 
 const round = (x: number) => Math.round(x * 100) / 100;
+
+const currencies = [
+  {
+    value: "USD",
+    label: "$"
+  },
+  {
+    value: "EUR",
+    label: "€"
+  },
+  {
+    value: "BTC",
+    label: "฿"
+  },
+  {
+    value: "JPY",
+    label: "¥"
+  }
+];
