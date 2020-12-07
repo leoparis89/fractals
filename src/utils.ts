@@ -19,7 +19,7 @@ export function pointToColor({ x, y }: Point, c: Point) {
   const constant = math.complex(c.x, c.y);
   let point = math.complex(x, y);
 
-  var iterations = julia(point, constant);
+  const iterations = julia(point, constant);
 
   const percentage = iterations / maxIterations;
 
