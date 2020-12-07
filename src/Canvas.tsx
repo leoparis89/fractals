@@ -51,12 +51,16 @@ export default function Canvas() {
     e.preventDefault();
     refresh();
   };
+  const handlePresetChange = (preset: any) => {
+    setConstant(preset);
+  };
   return (
     <Container>
       <FractalForm
         constant={constant}
         onChange={handleChange}
         onSubmit={handleSubmit}
+        onPresetChange={handlePresetChange}
       />
       {/* <canvas
         ref={complexMapEl}
@@ -81,8 +85,9 @@ export default function Canvas() {
 const FractalForm: React.FC<{
   constant: Point;
   onChange: any;
+  onPresetChange: any;
   onSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
-}> = ({ constant, onChange, onSubmit }) => {
+}> = ({ constant, onChange, onSubmit, onPresetChange }) => {
   return (
     <form onSubmit={onSubmit} style={{ display: "flex", alignItems: "center" }}>
       <TextField
@@ -91,12 +96,15 @@ const FractalForm: React.FC<{
         label="Select"
         variant="outlined"
         // value={currency}
-        // onChange={handleChange}
+        onChange={e => onPresetChange(JSON.parse(e.target.value))}
         helperText="Select a preset"
         margin="normal"
       >
-        {currencies.map(option => (
-          <MenuItem key={option.value} value={option.value}>
+        {fractalPresets.map(option => (
+          <MenuItem
+            key={JSON.stringify(option.value)}
+            value={JSON.stringify(option.value)}
+          >
             {option.label}
           </MenuItem>
         ))}
@@ -161,21 +169,17 @@ function draw(ctx: CanvasRenderingContext2D, constant: Point) {
 
 const round = (x: number) => Math.round(x * 100) / 100;
 
-const currencies = [
+const fractalPresets = [
   {
-    value: "USD",
-    label: "$"
+    value: { x: 0.3, y: 0.5 },
+    label: "preset1"
   },
   {
-    value: "EUR",
-    label: "€"
+    value: { x: 0.285, y: 0.01 },
+    label: "preset2"
   },
   {
-    value: "BTC",
-    label: "฿"
-  },
-  {
-    value: "JPY",
-    label: "¥"
+    value: { x: 0.038088, y: 0.9754633 },
+    label: "preset4"
   }
 ];
