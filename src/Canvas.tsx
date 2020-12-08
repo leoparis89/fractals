@@ -9,41 +9,37 @@ import {
   Paper
 } from "@material-ui/core";
 
-const { height, width } = config.canvas;
-
 const canvasStyle = {
   // border: "1px solid blue"
 };
 
-type T = (event: React.PointerEvent<HTMLCanvasElement>) => void;
-
 export default function Canvas() {
-  const complexMapEl = useRef<HTMLCanvasElement>(null);
+  // const complexMapEl = useRef<HTMLCanvasElement>(null);
   const fractalDisplayEl = useRef<HTMLCanvasElement>(null);
   const [constant, setConstant] = useState<Point>({
-    x: 0.285,
-    y: 0.013
+    x: 0.3,
+    y: 0.5
   });
 
   useEffect(() => {
-    refresh();
+    // refresh();
   }, []);
 
-  const handleMove: T = event => {
-    const rect = (event.target as HTMLCanvasElement).getBoundingClientRect();
-    const position = {
-      x: event.clientX - rect.left,
-      y: event.clientY - rect.top
-    };
-    const point = pixelToPoint(position.x, position.y);
+  // const handleMove: T = event => {
+  //   const rect = (event.target as HTMLCanvasElement).getBoundingClientRect();
+  //   const position = {
+  //     x: event.clientX - rect.left,
+  //     y: event.clientY - rect.top
+  //   };
+  //   const point = pixelToPoint(position.x, position.y);
 
-    setConstant(point);
+  //   setConstant(point);
 
-    if (constant) {
-      var ctx = fractalDisplayEl.current!.getContext("2d")!;
-      draw(ctx, constant);
-    }
-  };
+  //   if (constant) {
+  //     var ctx = fractalDisplayEl.current!.getContext("2d")!;
+  //     draw(ctx, constant);
+  //   }
+  // };
 
   const refresh = () => {
     var ctx = fractalDisplayEl.current!.getContext("2d")!;
@@ -57,9 +53,11 @@ export default function Canvas() {
     e.preventDefault();
     refresh();
   };
-  const handlePresetChange = (preset: any) => {
+
+  const handlePresetChange = (preset: Point) => {
     setConstant(preset);
   };
+
   return (
     <Container>
       <FractalForm
@@ -94,18 +92,30 @@ const FractalForm: React.FC<{
   onPresetChange: any;
   onSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
 }> = ({ constant, onChange, onSubmit, onPresetChange }) => {
+  const maybePreset = fractalPresets.find(
+    p => JSON.stringify(p.value) === JSON.stringify(constant)
+  )?.value;
+
+  const handlePresetChange = (e: any) => {
+    if (e.target.value === "custom") {
+      onPresetChange({ x: 0, y: 0 });
+      return;
+    }
+    onPresetChange(JSON.parse(e.target.value));
+  };
+
   return (
     <form onSubmit={onSubmit} style={{ display: "flex", alignItems: "center" }}>
       <TextField
-        id="standard-select-currency"
         select
-        label="Select"
+        label="Preset"
         variant="outlined"
-        // value={currency}
-        onChange={e => onPresetChange(JSON.parse(e.target.value))}
+        value={maybePreset ? JSON.stringify(maybePreset) : "custom"}
+        onChange={handlePresetChange}
         helperText="Select a preset"
         margin="normal"
       >
+        <MenuItem value="custom">Custom</MenuItem>
         {fractalPresets.map(option => (
           <MenuItem
             key={JSON.stringify(option.value)}
@@ -173,9 +183,11 @@ function draw(ctx: CanvasRenderingContext2D, constant: Point) {
   }
 }
 
-const round = (x: number) => Math.round(x * 100) / 100;
+// const round = (x: number) => Math.round(x * 100) / 100;
 
-const fractalPresets = [
+type Preset = { value: Point; label: string };
+
+const fractalPresets: Preset[] = [
   {
     value: { x: 0.3, y: 0.5 },
     label: "preset1"
