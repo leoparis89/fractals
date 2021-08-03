@@ -1,11 +1,10 @@
 import React from "react";
-import "./App.css";
-import Canvas from "./Canvas";
+import FractalGen from "./FractalGen";
 
 function App() {
   return (
     <div className="App">
-      <Canvas></Canvas>
+      <FractalGen />
     </div>
   );
 }

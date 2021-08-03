@@ -1,6 +1,7 @@
 import * as math from "mathjs";
 
 import config from "./config";
+import { Coords } from "./models";
 const { width, height } = config.display;
 // the rest of your script...
 
@@ -12,10 +13,7 @@ export function pixelToPoint(x: number, y: number) {
 
   return { x: zx, y: zy };
 }
-
-export type Point = { x: number; y: number };
-
-export function pointToColor({ x, y }: Point, c: Point) {
+export function pointToColor({ x, y }: Coords, c: Coords) {
   const constant = math.complex(c.x, c.y);
   let point = math.complex(x, y);
 
